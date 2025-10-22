@@ -65,7 +65,7 @@ struct MinHeap {
                 pos = smallest;
             }
             else {
-                return;
+                returnl
             }
             leftChild = 2 * pos + 1;
             rightChild = 2 * pos + 2;

@@ -41,6 +41,7 @@ int main() {
     // Step 5: Encode the message and print output
     encodeMessage("input.txt", codes);
 
+
     return 0;
 }
 

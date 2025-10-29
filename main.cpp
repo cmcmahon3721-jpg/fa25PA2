@@ -147,7 +147,7 @@ void generateCodes(int root, string codes[]) {
     }
 }
 
-// Step 5: Print table and encoded message
+// Step 5: Print table and encoded messagee
 void encodeMessage(const string& filename, string codes[]) {
     cout << "\nCharacter : Code\n";
     for (int i = 0; i < 26; ++i) {

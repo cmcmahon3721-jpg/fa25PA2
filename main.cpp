@@ -90,7 +90,6 @@ int createLeafNodes(int freq[]) {
 
 // Step 3: Build the encoding tree using heap operations
 int buildEncodingTree(int nextFree) {
-    // TODO:
     MinHeap heap;
     for (int i = 0; i < nextFree; ++i) {
         heap.push(i, weightArr);
@@ -100,20 +99,14 @@ int buildEncodingTree(int nextFree) {
         int index2 = heap.pop(weightArr);
 
         weightArr[nextFree] = weightArr[index1] + weightArr[index2];
-        leftArr[nextFree] = leftArr[index1];
-        rightArr[nextFree] = rightArr[index2];
+        leftArr[nextFree] = index1;
+        rightArr[nextFree] = index2;
 
         heap.push(nextFree, weightArr);
+        nextFree++;
     }
-    // 1. create MinHeap object
-    // 2. Push all leaf node indices into the heap.
-    // 3. While the heap size is greater than 1:
-    //    - Pop two smallest nodes
-    //    - Create a new parent node with combined weight
-    //    - Set left/right pointers
-    //    - Push new parent index back into the heap
-    // 4. Return the index of the last remaining node (root)
-    return 0; // placeholder
+    int root = heap.pop(weightArr);
+    return root;
 }
 
 // Step 4: Use an STL stack to generate codes
@@ -122,28 +115,36 @@ void generateCodes(int root, string codes[]) {
     // Use stack<pair<int, string>> to simulate DFS traversal.
     // Left edge adds '0', right edge adds '1'.
     // Record code when a leaf node is reached.
-    int n = sizeof(weightArr);
+
     stack<pair<int, string>> stack;
 
-    pair<int, string> x = pair<int, string>(root, codes[root]);
+    pair<int, string> x = pair<int, string>(root, "");
     stack.push(x);
 
-    int i = root;
-    pair<int, string> temp;
+    int tempIndex;
+    string tempCode;
+
+
     while (!stack.empty()) {
-        temp = stack.top();
+        tempIndex = stack.top().first;
+        tempCode = stack.top().second;
         stack.pop();
 
-        if (rightArr[i] != -1) {
-            pair<int, string> y = pair<int, string>(rightArr[i], codes[rightArr[i]] + "1");
-            stack.push(y);
+        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {
+            codes[tempIndex] = tempCode;
         }
-
-        if (leftArr[i] != -1) {
-            pair<int, string> z = pair<int, string>(leftArr[i], codes[leftArr[i]] + "0");
-            stack.push(z);
+        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {
+            codes[tempIndex] = tempCode;
+        } else {
+            if (rightArr[tempIndex] != -1) {
+                pair<int, string> y = pair<int, string>(rightArr[tempIndex], codes[rightArr[tempIndex]] + "1");
+                stack.push(y);
+            }
+            if (leftArr[tempIndex] != -1) {
+                pair<int, string> z = pair<int, string>(leftArr[tempIndex], codes[leftArr[tempIndex]] + "0");
+                stack.push(z);
+            }
         }
-
     }
 }
 
@@ -152,7 +153,7 @@ void encodeMessage(const string& filename, string codes[]) {
     cout << "\nCharacter : Code\n";
     for (int i = 0; i < 26; ++i) {
         if (!codes[i].empty())
-            cout << char('a' + i) << " : " << codes[i] << "\n";
+            cout << "   " << char('a' + i) << "      :  " << codes[i] << "\n";
     }
 
     cout << "\nEncoded message:\n";

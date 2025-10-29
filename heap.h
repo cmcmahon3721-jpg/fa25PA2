@@ -15,20 +15,25 @@ struct MinHeap {
     MinHeap() { size = 0; }
 
     void push(int idx, int weightArr[]) {
-        // TODO: insert index at end of heap, restore order using upheap()
-        data[size] = data[idx];
+        if (size == 64) {
+            throw out_of_range("Exception: heap overflow");
+        }
+
+        data[size] = idx;
         size++;
         upheap(size - 1, weightArr);
     }
 
     int pop(int weightArr[]) {
-        // TODO: remove and return smallest index
-        // Replace root with last element, then call downheap()
+        if (size == 0) {
+            throw out_of_range("Exception: heap underflow");
+        }
+
         int smallest = data[0];
         data[0] = data[size - 1];
         size--;
         downheap(0, weightArr);
-        return smallest; // placeholderr
+        return smallest;
     }
 
     void upheap(int pos, int weightArr[]) {

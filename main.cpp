@@ -94,6 +94,7 @@ int buildEncodingTree(int nextFree) {
     for (int i = 0; i < nextFree; ++i) {
         heap.push(i, weightArr);
     }
+
     while (heap.size > 1) {
         int index1 = heap.pop(weightArr);
         int index2 = heap.pop(weightArr);
@@ -130,18 +131,17 @@ void generateCodes(int root, string codes[]) {
         tempCode = stack.top().second;
         stack.pop();
 
-        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {
+        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {    //if node is leaf
             codes[tempIndex] = tempCode;
+            continue;
         }
-        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {
-            codes[tempIndex] = tempCode;
-        } else {
+        else {
             if (rightArr[tempIndex] != -1) {
-                pair<int, string> y = pair<int, string>(rightArr[tempIndex], codes[rightArr[tempIndex]] + "1");
+                pair<int, string> y = pair<int, string>(rightArr[tempIndex], tempCode + "1");
                 stack.push(y);
             }
             if (leftArr[tempIndex] != -1) {
-                pair<int, string> z = pair<int, string>(leftArr[tempIndex], codes[leftArr[tempIndex]] + "0");
+                pair<int, string> z = pair<int, string>(leftArr[tempIndex], tempCode + "0");
                 stack.push(z);
             }
         }

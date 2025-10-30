@@ -18,7 +18,6 @@ struct MinHeap {
         if (size == 64) {
             throw out_of_range("Exception: heap overflow");
         }
-
         data[size] = idx;
         size++;
         upheap(size - 1, weightArr);

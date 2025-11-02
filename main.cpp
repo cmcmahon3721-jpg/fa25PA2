@@ -92,7 +92,7 @@ int createLeafNodes(int freq[]) {
 int buildEncodingTree(int nextFree) {
     MinHeap heap;
     for (int i = 0; i < nextFree; ++i) {
-        heap.push(i, weightArr);
+        heap.push(i, weightArr);            //push indices into heap
     }
 
     while (heap.size > 1) {
@@ -112,31 +112,24 @@ int buildEncodingTree(int nextFree) {
 
 // Step 4: Use an STL stack to generate codes
 void generateCodes(int root, string codes[]) {
-    // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
-
     stack<pair<int, string>> stack;
 
     pair<int, string> x = pair<int, string>(root, "");
-    stack.push(x);
+    stack.push(x);   //push root
 
     int tempIndex;
     string tempCode;
-
 
     while (!stack.empty()) {
         tempIndex = stack.top().first;
         tempCode = stack.top().second;
         stack.pop();
 
-        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {    //if node is leaf
+        if (leftArr[tempIndex] == -1 && rightArr[tempIndex] == -1) {    //if node is leaf then save code created
             codes[tempIndex] = tempCode;
-            continue;
         }
         else {
-            if (rightArr[tempIndex] != -1) {
+            if (rightArr[tempIndex] != -1) {   //if not leaf node continue adding to code
                 pair<int, string> y = pair<int, string>(rightArr[tempIndex], tempCode + "1");
                 stack.push(y);
             }
@@ -148,13 +141,15 @@ void generateCodes(int root, string codes[]) {
     }
 }
 
-// Step 5: Print table and encoded messagee
+// Step 5: Print table and encoded message
 void encodeMessage(const string& filename, string codes[]) {
     cout << "\nCharacter : Code\n";
     for (int i = 0; i < 26; ++i) {
         if (!codes[i].empty())
-            cout << "   " << char('a' + i) << "      :  " << codes[i] << "\n";
-    }
+            cout << "   " << char('a' + i) << "      :  " << codes[i] << "\n";    //there is an issue with the given
+    }                                                                        //code here. It will only output letters
+                                                                                //in alphabetical order, representing
+                                                                                //letters that are not in input.txt
 
     cout << "\nEncoded message:\n";
 

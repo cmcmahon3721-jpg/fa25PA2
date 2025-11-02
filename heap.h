@@ -15,31 +15,23 @@ struct MinHeap {
     MinHeap() { size = 0; }
 
     void push(int idx, int weightArr[]) {
-        if (size == 64) {
-            throw out_of_range("Exception: heap overflow");
-        }
-        data[size] = idx;
-        size++;
+        data[size] = idx;                   //pushing indices into data[] to use for upheap/downheap
+        size++;                             //account for change in size
         upheap(size - 1, weightArr);
     }
 
     int pop(int weightArr[]) {
-        if (size == 0) {
-            throw out_of_range("Exception: heap underflow");
-        }
-
-        int smallest = data[0];
+        int smallest = data[0];             //to return smallest index
         data[0] = data[size - 1];
-        size--;
+        size--;                             //account for change in size
         downheap(0, weightArr);
         return smallest;
     }
 
     void upheap(int pos, int weightArr[]) {
-        // TODO: swap child upward while smaller than parent
         int temp = 0;
         int parent = (pos - 1) / 2;
-        while (pos > 0 && weightArr[data[pos]] < weightArr[data[parent]]) {
+        while (pos > 0 && weightArr[data[pos]] < weightArr[data[parent]]) { //if node is smaller than parent
             parent = (pos - 1) / 2;
             temp = data[pos];
             data[pos] = data[parent];
@@ -49,27 +41,29 @@ struct MinHeap {
     }
 
     void downheap(int pos, int weightArr[]) {
-        // TODO: swap parent downward while larger than any child
-        int leftChild =  2 * pos + 1;
-        int rightChild = 2 * pos + 2;
+        int leftChild =  2 * pos + 1;  //index of left child
+        int rightChild = 2 * pos + 2;  //index of right child
         int smallest = pos;
         int temp = 0;
+        bool isPercolating = true;
 
-        while (true) {
-            if (leftChild < size && weightArr[data[leftChild]] < weightArr[data[smallest]]) {
+        while (isPercolating) {
+            if (leftChild < size && weightArr[data[leftChild]] < weightArr[data[smallest]]) {    //if left or right child nodes are smaller than current smallest node
                 smallest = leftChild;
+                temp = data[pos];               //swap left child with parent
+                data[pos] = data[smallest];
+                data[smallest] = temp;
+                pos = smallest;
             }
             if (rightChild < size && weightArr[data[rightChild]] < weightArr[data[smallest]]) {
-                smallest = rightChild;
-            }
-            if (smallest != pos) {
+                smallest = rightChild;          //swap right child with parent
                 temp = data[pos];
                 data[pos] = data[smallest];
                 data[smallest] = temp;
                 pos = smallest;
             }
             else {
-                return;
+                isPercolating = false;  //if neither right or left children nodes are smaller than parent, exit loop
             }
             leftChild = 2 * pos + 1;
             rightChild = 2 * pos + 2;

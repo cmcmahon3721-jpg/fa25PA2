@@ -156,7 +156,7 @@ void encodeMessage(const string& filename, string codes[]) {
 
     //#include <cctype>
     //for (int i = 0; i < MAX_NODES; ++i) {         //using this iterative approach would output the characters actually
-    //    if (!(isalnum(charArr[i]))) {             //in input.txt and not just the alphabet
+    //    if (!(isalnum(charArr[i]))) {             //in input.txt and not just the alphabet.
     //        break;
     //    }
     //    cout << charArr[i];

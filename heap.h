@@ -63,7 +63,7 @@ struct MinHeap {
                 pos = smallest;
             }
             else {
-                isPercolating = false;  //if neither right or left children nodes are smaller than parent, exit loop
+                isPercolating = false;  //if neither right or left children nodes are smaller than parent, exit loop.
             }
             leftChild = 2 * pos + 1;
             rightChild = 2 * pos + 2;

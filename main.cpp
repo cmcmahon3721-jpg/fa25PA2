@@ -146,10 +146,21 @@ void encodeMessage(const string& filename, string codes[]) {
     cout << "\nCharacter : Code\n";
     for (int i = 0; i < 26; ++i) {
         if (!codes[i].empty())
-            cout << "   " << char('a' + i) << "      :  " << codes[i] << "\n";    //there is an issue with the given
-    }                                                                        //code here. It will only output letters
+            cout << "   " << char('a' + i) << "      :  " << codes[i] << "\n";  //There is an issue with the given
+    }                                                                           //code here. It will only output letters
                                                                                 //in alphabetical order, representing
                                                                                 //letters that are not in input.txt
+    //I don't know if I am meant to change this function because it was already given written this way, even though you
+    //do detail that we need to implement our own encodeMessage() on the README file. I am just going to add in comments
+    //below what I would change it to just in case.
+
+    //#include <cctype>
+    //for (int i = 0; i < MAX_NODES; ++i) {         //using this iterative approach would output the characters actually
+    //    if (!(isalnum(charArr[i]))) {             //in input.txt and not just the alphabet
+    //        break;
+    //    }
+    //    cout << charArr[i];
+    //}
 
     cout << "\nEncoded message:\n";
 
